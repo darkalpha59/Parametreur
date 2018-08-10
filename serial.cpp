@@ -76,7 +76,7 @@ int send_trame(FT_HANDLE port,string recept,string cmd,string data){
 	if(recept == "&"){date = date_ent2;}
 	
 	//assemblage des elements de la trame
-	trame = trame+"I"+recept+(char)0+ cmd +data;
+	trame += "I"+recept+(char)0+ cmd +data;
 	
 	//Convertion pour calcul crc16
 	u_trame = (uchar*)trame.c_str();

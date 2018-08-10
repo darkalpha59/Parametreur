@@ -175,7 +175,6 @@ int detect_num_serial(int machine){
 
 int set_serial_num(int machine, string num_serial){
 	
-	//char chemin[] = "D:\\Users\\ZL5762\\Documents\\Parametreur_BGS\\Codes\\Version_console\\V1.0.1\\config.ini";
 	string cle = "m";
 	cle += to_string(machine);
 	char* chemin = (char*)calloc(512,sizeof(char));
@@ -189,6 +188,8 @@ int set_serial_num(int machine, string num_serial){
 		cout << "erreur ecriture: "<< GetLastError() << endl;	
 	}
 	
+	free(chemin);
+	
 	return 0;
 	
 }
@@ -196,7 +197,6 @@ int set_serial_num(int machine, string num_serial){
 string get_serial_num(int machine){
 	
 	
-	//char chemin[] = "D:\\Users\\ZL5762\\Documents\\Parametreur_BGS\\Codes\\Version_console\\V1.0.1\\config.ini";
 	string cle = "m";
 	string s_num_serial;
 	char* chemin = (char*)calloc(512,sizeof(char));

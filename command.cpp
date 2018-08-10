@@ -253,8 +253,6 @@ void* thread_machine(void* arg){
 	
 	//connexion
 	
-
-	
 	if(set_connexion(argu->port) == -1){
 		cerr << "Erreur: connexion" << endl;
 		FT_W32_CloseHandle(argu->port);

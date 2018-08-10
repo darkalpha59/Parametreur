@@ -50,7 +50,7 @@ string explorateur(string type){
 	char* dossier = (char*)calloc(512,sizeof(char));
 	string retour("");
 	string titre = "Choisir fichier .";
-	titre = titre + type;
+	titre += type;
 	
 	
 	GetCurrentDirectoryA(512, dossier);
@@ -252,7 +252,7 @@ Param* read_one_info_xml(string file_chemin, string name, char index){
 		data_temp = elem->GetText();
 		
 		for(char cpt = (data_temp.size()-1); cpt <16;cpt++){
-			data_temp = data_temp + " ";
+			data_temp += " ";
 		}
 		
 		if(index == 0){
