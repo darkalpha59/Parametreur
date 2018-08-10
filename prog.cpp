@@ -24,7 +24,7 @@
 using namespace std;
 
 
-char DEBUG =0;
+char DEBUG =1;
 char LOCK = 0;
 
 

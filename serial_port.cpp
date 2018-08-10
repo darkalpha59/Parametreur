@@ -96,6 +96,7 @@ int manage_serial_num(){
 		for(cpt=1;cpt<7;cpt++){
 			detect_num_serial(cpt);
 		}
+		system("PAUSE");
 		return 0;
 		
 	}
@@ -109,6 +110,7 @@ int manage_serial_num(){
 		
 		//detection du numero de serie de la machine
 		detect_num_serial(machine);
+		system("PAUSE");
 		return 0;
 		
 	}
@@ -129,6 +131,7 @@ int manage_serial_num(){
 			cout << "Numero serie machine " << (int)cpt << ": " 
 				<< temp << endl;
 		}
+		system("PAUSE");
 		return 0;
 		
 	}	
@@ -172,113 +175,53 @@ int detect_num_serial(int machine){
 
 int set_serial_num(int machine, string num_serial){
 	
-	//Stockage des anciennes valeurs
-	string port_ORDES1 = get_serial_num(1);
-	string port_AG2    = get_serial_num(2);
-	string port_ORDES3 = get_serial_num(3);
-	string port_ORDES4 = get_serial_num(4);
-	string port_AG5    = get_serial_num(5);
-	string port_ORDES6 = get_serial_num(6);
-		
-	//Remplacement de la valeur choisie
-	switch(machine){
-		case 1:
-			port_ORDES1=num_serial;
-			break;
-			
-		case 2:
-			port_AG2=num_serial;
-			break;			
-			
-		case 3:
-			port_ORDES3=num_serial;
-			break;			
-			
-		case 4:
-			port_ORDES4=num_serial;
-			break;
-
-		case 5:
-			port_AG5=num_serial;
-			break;
-
-		case 6:
-			port_ORDES6=num_serial;
-			break;			
+	//char chemin[] = "D:\\Users\\ZL5762\\Documents\\Parametreur_BGS\\Codes\\Version_console\\V1.0.1\\config.ini";
+	string cle = "m";
+	cle += to_string(machine);
+	char* chemin = (char*)calloc(512,sizeof(char));
+	
+	GetCurrentDirectory(512, chemin);
+	chemin = strcat(chemin, "\\config.ini");
+	
+	
+	if(WritePrivateProfileString("SERIAL",cle.c_str(),
+		num_serial.c_str(), chemin ) == 0 ){
+		cout << "erreur ecriture: "<< GetLastError() << endl;	
 	}
 	
-	//ouverture fichier en ecriture
-	ofstream fichier("config.txt",  ios::out | ios::trunc);
-	if(!fichier){
-		cerr << "Erreur ouverture config.txt en ecriture" << endl;
-		return -1;
-	}
-	
-	//Ecriture des nouvelles valeurs
-	fichier << port_ORDES1 <<" "<<port_AG2 <<" "<< port_ORDES3
-		<<" "<< port_ORDES4 <<" "<< port_AG5 <<" "<< port_ORDES6;
-	fichier.clear();
-	fichier.close();
 	return 0;
+	
 }
 
 string get_serial_num(int machine){
 	
 	
-	string port_ORDES1("");
-	string port_AG2("");
-	string port_ORDES3("");
-	string port_ORDES4("");
-	string port_AG5("");
-	string port_ORDES6("");
+	//char chemin[] = "D:\\Users\\ZL5762\\Documents\\Parametreur_BGS\\Codes\\Version_console\\V1.0.1\\config.ini";
+	string cle = "m";
+	string s_num_serial;
+	char* chemin = (char*)calloc(512,sizeof(char));
 	
-	//ouverture fichier en lecture
-	ifstream fichier("config.txt", ios::in );
+	GetCurrentDirectory(512, chemin);
+	chemin = strcat(chemin, "\\config.ini");
 	
-	if(!fichier){
+	
+	cle += to_string(machine);
+	
+	char* num_serial = (char*)calloc(16,sizeof(char));
+	
+	
+	if( GetPrivateProfileString(
+		"SERIAL",cle.c_str(),"",num_serial,16,chemin ) == 0){
+		cout << "erreur lecture: " << GetLastError() << endl;	
+	}
 		
-		cerr << "Erreur ouverture config.txt en lecture" << endl;
-		return "";
-	}
+	s_num_serial = num_serial;
 	
-
+	free(chemin);
+	free(num_serial);
 	
-	//Recuperation des valeurs
-	fichier >> port_ORDES1 >> port_AG2 >> port_ORDES3
-		>> port_ORDES4 >> port_AG5 >> port_ORDES6;
-	fichier.clear();
-	fichier.close();
-
-	//Revoie de la valeur choisie
-	switch(machine){
-		case 1:
-			return port_ORDES1;
-			break;
+	return s_num_serial;
 	
-		case 2:
-			return port_AG2;
-			break;
-			
-		case 3:
-			return port_ORDES3;
-			break;
-			
-		case 4:
-			return port_ORDES4;
-			break;
-			
-		case 5:
-			return port_AG5;
-			break;
-			
-		case 6:
-			return port_ORDES6;
-			break;
-			
-		default:
-			return "";
-			break;
-	}
 	
 }
 

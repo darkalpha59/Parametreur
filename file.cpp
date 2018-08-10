@@ -46,19 +46,20 @@ string open_xml_file(string extention){
 }
 
 string explorateur(string type){
-	char dossier[255];
+	//char dossier[255];
+	char* dossier = (char*)calloc(512,sizeof(char));
 	string retour("");
 	string titre = "Choisir fichier .";
 	titre = titre + type;
 	
 	
-	GetCurrentDirectoryA(255, dossier);
+	GetCurrentDirectoryA(512, dossier);
     OPENFILENAME ofn;
     ZeroMemory ( &ofn , sizeof ( OPENFILENAMEW ) );
     ofn.lStructSize = sizeof ( OPENFILENAMEW );
-    //ofn.lpstrFile = chemin;
-	ofn.lpstrFile = (char*)malloc(1024* sizeof(char));
-	ofn.lpstrFile[0] = '\0';
+	//ofn.lpstrFile = (char*)malloc(1024* sizeof(char));
+	//ofn.lpstrFile[0] = '\0';
+	ofn.lpstrFile = (char*)calloc(1024, sizeof(char));
     ofn.nMaxFile = 1024;
     ofn.lpstrTitle = _T(titre.c_str());
 	
@@ -77,7 +78,10 @@ string explorateur(string type){
 	SetCurrentDirectory(dossier);
  
 	retour = ofn.lpstrFile;
+	
 	free(ofn.lpstrFile);
+	free(dossier);
+	
 	return retour;
 }
 
@@ -170,55 +174,55 @@ Param* read_one_info_xml(string file_chemin, string name, char index){
 	
 	if(type == "pal"){
 		//crc32
-		addresses[0]= "80000000";	
+		adresses[0]= "80000000";	
 		//nom fichier
-		addresses[1]= "80000014";	
-		addresses[2]= "8000001E";	
-		addresses[3]= "80000028";	
-		addresses[4]= "80000032";	
+		adresses[1]= "80000014";	
+		adresses[2]= "8000001E";	
+		adresses[3]= "80000028";	
+		adresses[4]= "80000032";	
 		//version
-		addresses[5]= "8000003C";	
+		adresses[5]= "8000003C";	
 		//date
-		addresses[6]= "80000046";	
-		addresses[7]= "80000050";	
+		adresses[6]= "80000046";	
+		adresses[7]= "80000050";	
 		//application
-		addresses[8]= "800000A0";	
-		addresses[9]= "800000AA";	
+		adresses[8]= "800000A0";	
+		adresses[9]= "800000AA";	
 		
 	}
 	else if(type == "plo"){
 		//crc32
-		addresses[0]= "8000000A";	
+		adresses[0]= "8000000A";	
 		//nom fichier
-		addresses[1]= "8000005A";	
-		addresses[2]= "80000064";	
-		addresses[3]= "8000006E";	
-		addresses[4]= "80000078";	
+		adresses[1]= "8000005A";	
+		adresses[2]= "80000064";	
+		adresses[3]= "8000006E";	
+		adresses[4]= "80000078";	
 		//version
-		addresses[5]= "80000082";	
+		adresses[5]= "80000082";	
 		//date
-		addresses[6]= "8000008C";	
-		addresses[7]= "80000096";	
+		adresses[6]= "8000008C";	
+		adresses[7]= "80000096";	
 		//application
-		addresses[8]= "800000B4";	
-		addresses[9]= "800000BE";
+		adresses[8]= "800000B4";	
+		adresses[9]= "800000BE";
 	}
 	else if(type == "paf"){
 		//crc32
-		addresses[0]= "8000000A";	
+		adresses[0]= "8000000A";	
 		//nom fichier
-		addresses[1]= "8000005A";	
-		addresses[2]= "80000064";	
-		addresses[3]= "8000006E";	
-		addresses[4]= "80000078";	
+		adresses[1]= "8000005A";	
+		adresses[2]= "80000064";	
+		adresses[3]= "8000006E";	
+		adresses[4]= "80000078";	
 		//version
-		addresses[5]= "80000082";	
+		adresses[5]= "80000082";	
 		//date
-		addresses[6]= "8000008C";	
-		addresses[7]= "80000096";	
+		adresses[6]= "8000008C";	
+		adresses[7]= "80000096";	
 		//application
-		addresses[8]= "800000B4";	
-		addresses[9]= "800000BE";
+		adresses[8]= "800000B4";	
+		adresses[9]= "800000BE";
 	}
 	
 	XMLDocument file;
@@ -560,7 +564,7 @@ Param* read_one_info_xml(string file_chemin, string name, char index){
 	}
 	return para;
 	
-}
+}*/
 
 
 /*Param* read_paf_info_xml(string file_chemin, string name, char index){
